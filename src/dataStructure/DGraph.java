@@ -12,6 +12,7 @@ public class DGraph implements graph{
 	HashMap<Integer,LinkedList<edge_data>> edgesByVer;
 	LinkedList<node_data> verAsLst;
 	LinkedList<edge_data> edgeAsLst;
+	int mc;
 	
 	public DGraph()
 	{
@@ -20,6 +21,7 @@ public class DGraph implements graph{
 		 verAsLst = new LinkedList<node_data>();
 		 edgeAsLst = new LinkedList<edge_data>();
 		 edgesByVer = new HashMap<Integer,LinkedList<edge_data>>();
+		 mc = 0;
 	}
 
 	@Override
@@ -40,6 +42,7 @@ public class DGraph implements graph{
 	public void addNode(node_data n) {
 		verMap.put(n.getKey(),n);
 		verAsLst.add(n);
+		mc=1;
 	}
 
 	@Override
@@ -60,6 +63,7 @@ public class DGraph implements graph{
 			}
 			
 		}
+		mc=1;
 	}
 
 	@Override
@@ -94,6 +98,7 @@ public class DGraph implements graph{
 		    node_data remove =verMap.remove(key); //remove from ver map
 			//remove from the list
 			verAsLst.remove(remove);
+			mc=1;
 		    return remove;
 	}
 
@@ -101,6 +106,7 @@ public class DGraph implements graph{
 	public edge_data removeEdge(int src, int dest) {
 		edge_data removed = edges.remove(new Tuple(src,dest));//del from map<src,dest>
 		edgeAsLst.remove(removed);//remove from list
+		mc=1;
 		return removed;
 	}
 
@@ -116,8 +122,7 @@ public class DGraph implements graph{
 
 	@Override
 	public int getMC() {
-		// TODO Auto-generated method stub
-		return 0;
+		return mc;
 	}
 	@Override
 	public String toString()

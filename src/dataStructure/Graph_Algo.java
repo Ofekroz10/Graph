@@ -1,5 +1,6 @@
 package dataStructure;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +25,7 @@ public class Graph_Algo implements graph_algorithms{
 	private HashMap<Integer,LinkedList<edge_data>> edges;
 	public static final Comparator<node_data> _Comp = new VerComperator();
 	public static Comparator<node_data> getComp() {return _Comp;}
+	public int shortDest=0;
 	
 	@Override
 	public void init(graph g) {
@@ -50,6 +52,7 @@ public class Graph_Algo implements graph_algorithms{
 					{
 						edges.get(i).add(((Edge)e).copy());
 					}
+
 				}
 			 }
 		 }
@@ -59,31 +62,39 @@ public class Graph_Algo implements graph_algorithms{
 	@Override
 	public void init(String file_name) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void save(String file_name) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
+		Iterator it = verMap.entrySet().iterator();
+	    while (it.hasNext()) { //O(V)
+	        Map.Entry pair = (Map.Entry)it.next();
+	        int cur = (int) pair.getKey();
+	        boolean connect = isConnectedFrom(cur);
+	        if(!connect)
+	        	return false;
+	    }
+	    return true;
+	        
 	}
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		// TODO Auto-generated method stub
-		return 0;
+		shortestPath(src,dest);
+		return shortDest;
 	}
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		LinkedList<node_data> path = new LinkedList<node_data>();
 		PriorityQueue<node_data> queue = new PriorityQueue<node_data>(new VerComperator());
+		shortDest=0;
 		if(verMap.get(src)==null)
 			throw new ArithmeticException("src is not exist!");
 		if(verMap.get(dest)==null)
@@ -91,6 +102,7 @@ public class Graph_Algo implements graph_algorithms{
 		if(src==dest)
 		{
 			path.add(verMap.get(src));
+			shortDest=0;
 			return path;
 		}
 		Vertex start= null;
@@ -110,7 +122,7 @@ public class Graph_Algo implements graph_algorithms{
 		       v.setFather(null);
 		       v.setTag(0);
 		    }
-		   
+		   //end of initialization
 		    Vertex destV = null;
 		    while(queue.size()!=0)
 		    {
@@ -132,12 +144,18 @@ public class Graph_Algo implements graph_algorithms{
 			    	current = (Vertex)current.getFather();
 			    }
 		    }
+		if(path!=null)
+		{
+			shortDest = path.size()-1;
+		}
 		return path;
 		
 	}
 
 	private void hakala(Vertex v) {
 		LinkedList<edge_data> nei =edges.get(v.getKey());
+		if(nei!=null)
+		{
 		for (edge_data e : nei) {
 			Vertex curNei  = (Vertex) verMap.get(e.getDest());
 			double x = v.getDisFromStart()+e.getWeight();
@@ -148,14 +166,15 @@ public class Graph_Algo implements graph_algorithms{
 				curNeiVer.setDisFromStart(x);
 			}
 		}
+		}
 		
 	}
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	@Override
 	public graph copy() {
@@ -177,6 +196,42 @@ public class Graph_Algo implements graph_algorithms{
 		 }
 		return g;
 		       
+	}
+	private boolean isConnectedFrom(int src)
+	{
+		LinkedList<node_data> vers = new LinkedList<node_data>();
+		int grayNum = 0;
+		//Init vertexColor to white
+		Iterator it = verMap.entrySet().iterator();
+	    while (it.hasNext()) { //O(V)
+	        Map.Entry pair = (Map.Entry)it.next();
+	       node_data v= (node_data)pair.getValue();
+	       v.setTag(0);//0 represent white
+	       if(v.getKey()== src)
+	       {
+	    	   vers.add(v);
+	    	   v.setTag(1);
+	       		grayNum++;
+	       }
+	    }
+	    while (vers.size()!=0) { 
+	       node_data v = (node_data) vers.remove();
+	       LinkedList<edge_data> nei = edges.get(v.getKey());
+	       if(nei!=null)
+	       {
+	       for (edge_data e : nei) {
+	    	   node_data curNei = (node_data)(verMap.get(e.getDest()));
+				if(curNei.getTag()==0)
+				{
+					vers.add(curNei);
+					curNei.setTag(1);//1 represent gray
+					grayNum++;
+				}
+			}
+	       }
+	    }
+	       
+	    return(grayNum==verMap.size());
 	}
 
 }

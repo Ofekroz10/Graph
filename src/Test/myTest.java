@@ -26,7 +26,11 @@ public class myTest
 	g.connect(6,4,10);
 	g.connect(6,5,15);
 	g.connect(3,2,9);
+	//make well connected
 	g.connect(5,2,6);
+	g.connect(2,5,6);
+	g.connect(2,3,6);
+	g.connect(5,6,6);
 	
 	/*for(int i=1;i<=7;i++)
 	{
@@ -51,7 +55,7 @@ public class myTest
 	graphA.init(g);
 	System.out.println(graphA.copy());
 	System.out.println(graphA.shortestPath(1,2));
-	
+	System.out.println(graphA.isConnected());
 
 	}
 	
