@@ -53,6 +53,10 @@ public class Edge implements edge_data
 	@Override
 	public String toString()
 	{
-		return "src: "+src+" dest: "+dest+" weight: "+weight;
+		return ("src: "+src+" dest: "+dest+" weight: "+weight+ " tag "+tag);
+	}
+	public Edge copy()
+	{
+		return new Edge(src,dest,weight,tag);
 	}
 }

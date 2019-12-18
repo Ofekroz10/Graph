@@ -13,6 +13,8 @@ public class Vertex implements node_data
 	private  int key ;
 	private Point3D location;
 	private double weight;
+	private double disFromStart;
+	private node_data father;
 	
 	
 	public Vertex(int key,int tag,Point3D location,double weight)
@@ -21,6 +23,8 @@ public class Vertex implements node_data
 		this.key= key;
 		this.location = location;
 		this.weight = weight;
+		this.disFromStart =Graph_Algo.INFI;
+		this.father = null;
 
 	}
 	
@@ -94,5 +98,30 @@ public class Vertex implements node_data
 	{
 		return "Vertex: "+key;
 	}
+	public Vertex copy()
+	{
+		if(location!=null)
+			return new Vertex(key,tag,location.copy(),weight);
+		else
+			return new Vertex(key,tag,null,weight);
+	}
+	public double getDisFromStart()
+	{
+		return disFromStart;
+	}
+	public node_data getFather()
+	{
+		return father;
+	}
+	public void setDisFromStart(double val)
+	{
+		this.disFromStart=val;
+	}
+	public void setFather(node_data val)
+	{
+		this.father=val;
+	}
+
+
 
 }
