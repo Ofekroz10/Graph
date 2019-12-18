@@ -1,5 +1,10 @@
 package algorithms;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,7 +24,7 @@ import dataStructure.*;
  */
 
 	
-public class Graph_Algo implements graph_algorithms{
+public class Graph_Algo implements graph_algorithms, Serializable{
 	
 	public static final int INFI = Integer.MAX_VALUE;
 	private HashMap<Integer,node_data> verMap;
@@ -27,9 +32,11 @@ public class Graph_Algo implements graph_algorithms{
 	public static final Comparator<node_data> _Comp = new VerComperator();
 	public static Comparator<node_data> getComp() {return _Comp;}
 	public int shortDest=0;
+	private graph g;
 	
 	@Override
 	public void init(graph g) {
+		this.g=g;
 		verMap = new HashMap<Integer,node_data>();
 		 edges = new HashMap<Integer,LinkedList<edge_data>>();
 		 //Deep copy of verMap
@@ -62,13 +69,59 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public void init(String file_name) {
-		// TODO Auto-generated method stub
-	}
+		 try
+	        {    
+	            // Reading the object from a file 
+	            FileInputStream file = new FileInputStream(file_name); 
+	            ObjectInputStream in = new ObjectInputStream(file); 
+	              
+	            // Method for deserialization of object 
+	            Graph_Algo object1 = (Graph_Algo)in.readObject(); 
+	              
+	            in.close(); 
+	            file.close();
+	            //init
+	            init(object1.getGraph());
+	            
+	        } 
+	          
+	        catch(IOException ex) 
+	        { 
+	            System.out.println("IOException is caught"); 
+	        } 
+	          
+	        catch(ClassNotFoundException ex) 
+	        { 
+	            System.out.println(file_name+ " do not exist"); 
+	        } 
+	  
+	    } 
+	
 
 	@Override
 	public void save(String file_name) {
 		
-		
+		   try
+	        {    
+	            //Saving of object in a file 
+	            FileOutputStream file = new FileOutputStream(file_name); 
+	            ObjectOutputStream out = new ObjectOutputStream(file); 
+	              
+	            // Method for serialization of object 
+	            out.writeObject(this); 
+	              
+	            out.close(); 
+	            file.close(); 
+	            
+	  
+	        } 
+	          
+	        catch(IOException ex) 
+	        { 
+	            System.out.println("Eror with saving a file"); 
+	            System.out.println(ex.getMessage());
+	        } 
+	  
 	}
 
 	@Override
@@ -233,6 +286,11 @@ public class Graph_Algo implements graph_algorithms{
 	    }
 	       
 	    return(grayNum==verMap.size());
+	}
+	
+	public graph getGraph()
+	{
+		return g;
 	}
 
 }

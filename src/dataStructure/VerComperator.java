@@ -1,8 +1,9 @@
 package dataStructure;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class VerComperator implements Comparator<node_data>{
+public class VerComperator implements Comparator<node_data> ,Serializable{
 	
 	public VerComperator() {;}
 	@Override

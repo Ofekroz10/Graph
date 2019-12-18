@@ -56,7 +56,9 @@ public class myTest
 	System.out.println(graphA.copy());
 	System.out.println(graphA.shortestPath(1,2));
 	System.out.println(graphA.isConnected());
-
+	graph_algorithms f = new Graph_Algo();
+	f.init("test.graph");
+	System.out.println(((Graph_Algo) f).getGraph());
 	}
 	
 }

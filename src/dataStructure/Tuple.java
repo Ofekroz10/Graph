@@ -1,6 +1,8 @@
 package dataStructure;
 
-public class Tuple{
+import java.io.Serializable;
+
+public class Tuple implements Serializable{
 
     private final int k1,k2;
 
