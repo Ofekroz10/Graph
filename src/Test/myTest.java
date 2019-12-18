@@ -1,6 +1,6 @@
 package Test;
 import java.util.Random;
-
+import algorithms.*;
 import dataStructure.*;
 import utils.*;
 

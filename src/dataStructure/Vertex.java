@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import utils.Point3D;
-
+import algorithms.*;
 public class Vertex implements node_data
 {
 
