@@ -14,8 +14,7 @@ public class Vertex implements node_data,Serializable
 	private  int key ;
 	private Point3D location;
 	private double weight;
-	private double disFromStart;
-	private node_data father;
+	private String father;
 	
 	
 	public Vertex(int key,int tag,Point3D location,double weight)
@@ -24,8 +23,8 @@ public class Vertex implements node_data,Serializable
 		this.key= key;
 		this.location = location;
 		this.weight = weight;
-		this.disFromStart =Graph_Algo.INFI;
-		this.father = null;
+		this.weight = Graph_Algo.INFI;
+		this.father = "null";
 
 	}
 	
@@ -57,31 +56,14 @@ public class Vertex implements node_data,Serializable
 	}
 
 	@Override
-	//return info in this form   (key,weight,tag,(location))
 	public String getInfo() {
-		return new String("("+key+","+weight+","+tag+"("+location.toString()+"))");
+		return father;
 	}
 
 	@Override
 	//get info in this form   (key,weight,tag,(location))
-	public void setInfo(String s) throws IOException {
-		
-		if(s==null)
-			throw new IOException("Empty string");
-		try {
-		s = s.substring(1);
-		String[] values = s.split(",");
-		key =Integer.parseInt(values[0]);
-		weight = Integer.parseInt(values[1]);
-		tag = Integer.parseInt(values[2]);
-		//init location after...
-		
-		}
-		catch(Exception e)
-		{
-			throw new IOException("Incorrect string");
-		}
-		
+	public void setInfo(String s) {
+		father =s;
 	}
 
 	@Override
@@ -105,22 +87,6 @@ public class Vertex implements node_data,Serializable
 			return new Vertex(key,tag,location.copy(),weight);
 		else
 			return new Vertex(key,tag,null,weight);
-	}
-	public double getDisFromStart()
-	{
-		return disFromStart;
-	}
-	public node_data getFather()
-	{
-		return father;
-	}
-	public void setDisFromStart(double val)
-	{
-		this.disFromStart=val;
-	}
-	public void setFather(node_data val)
-	{
-		this.father=val;
 	}
 
 
