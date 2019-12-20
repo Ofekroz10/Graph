@@ -201,12 +201,9 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			    {
 			    	path.addFirst(verMap.get(Integer.valueOf(current.getInfo())));
 			    	current = (node_data)verMap.get(Integer.valueOf(current.getInfo()));
+			    	shortDest+=current.getWeight();
 			    }
 		    }
-		if(path!=null)
-		{
-			shortDest = path.size()-1;
-		}
 		return path;
 		
 	}
