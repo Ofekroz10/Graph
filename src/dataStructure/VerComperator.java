@@ -10,7 +10,7 @@ public class VerComperator implements Comparator<node_data> ,Serializable{
 	public int compare(node_data o1, node_data o2) {
 			Vertex x = (Vertex)o1;
 			Vertex y = (Vertex)o2;
-			return (int)(x.getDisFromStart()-y.getDisFromStart());
+			return (int)(x.getWeight()-y.getWeight());
 	}
 
 }
