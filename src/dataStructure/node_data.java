@@ -45,7 +45,7 @@ public interface node_data {
 	 * Allows changing the remark (meta data) associated with this node.
 	 * @param s
 	 */
-	public void setInfo(String s) throws IOException;
+	public void setInfo(String s) ;
 	/**
 	 * Temporal data (aka color: e,g, white, gray, black) 
 	 * which can be used be algorithms 

@@ -10,7 +10,7 @@ public class myTest
 	{	DGraph g = new DGraph();
 	for(int i=1; i<=6;i++) // add 1,2..7 vertex
 	{
-		Vertex x = new Vertex(i,0,null,0);
+		Vertex x = new Vertex(i,null);
 		g.addNode(x);
 	}
 	g.connect(1,3,14);
@@ -57,7 +57,6 @@ public class myTest
 	System.out.println(graphA.shortestPath(1,2));
 	System.out.println(graphA.isConnected());
 	graph_algorithms f = new Graph_Algo();
-	f.init("test.graph");
 	System.out.println(((Graph_Algo) f).getGraph());
 	}
 	
