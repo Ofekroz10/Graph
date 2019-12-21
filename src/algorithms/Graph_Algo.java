@@ -50,7 +50,15 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		 //Deep copy of edges
 		 for(int i=1;i<=verMap.size();i++)
 		 {
-			 Collection<edge_data> curEdge =  g.getE(i);
+			 Collection<edge_data> curEdge;
+			 try
+			 {
+				 curEdge =  g.getE(i);
+			 }
+			 catch(NullPointerException e)
+			 {
+				 continue;
+			 }
 			 Iterator<edge_data> it1 = curEdge.iterator();
 				 while (it1.hasNext()) {
 					 edge_data curE=it1.next();
@@ -92,7 +100,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	          
 	        catch(IOException ex) 
 	        { 
-	            System.out.println("IOException is caught"); 
+	            System.out.println("File is not exist");
 	        } 
 	          
 	        catch(ClassNotFoundException ex) 
