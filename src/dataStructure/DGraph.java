@@ -36,7 +36,10 @@ public class DGraph implements graph ,Serializable{
     }
  
     @Override
-    public void addNode(node_data n) {
+    public void addNode(node_data n) 
+    {
+    	if(verMap.get(n)!=null)
+			System.out.println("Vertex "+n.getKey()+" already exist!");
         verMap.put(n.getKey(),n);
         mc=1;
     }
