@@ -17,12 +17,11 @@ public class Vertex implements node_data,Serializable
 	private String father;
 	
 	
-	public Vertex(int key,int tag,Point3D location,double weight)
+	public Vertex(int key,Point3D location)
 	{
-		this.tag= tag;
-		this.key= key;
+		this.tag= 0;
+		this.key=key;
 		this.location = location;
-		this.weight = weight;
 		this.weight = Graph_Algo.INFI;
 		this.father = "null";
 
@@ -84,11 +83,22 @@ public class Vertex implements node_data,Serializable
 	public Vertex copy()
 	{
 		if(location!=null)
-			return new Vertex(key,tag,location.copy(),weight);
+		{
+			Vertex v= new Vertex(this.key,location.copy());
+			v.setWeight(weight);
+			v.setTag(tag);
+			v.setInfo(father);
+			return v;
+			
+		}
 		else
-			return new Vertex(key,tag,null,weight);
+			{
+				Vertex v= new Vertex(this.key,null);
+				v.setWeight(weight);
+				v.setTag(tag);
+				v.setInfo(father);
+				return v;
+			}
 	}
-
-
 
 }
