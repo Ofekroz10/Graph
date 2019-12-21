@@ -14,6 +14,7 @@ public class DGraph implements graph ,Serializable{
     HashMap<Integer,HashMap<Integer,edge_data>> edgesByVer;
     int mc;
    
+    
     public DGraph()
     {
         verMap = new HashMap<Integer,node_data>();
