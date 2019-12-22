@@ -1,4 +1,5 @@
 package Test;
+import java.util.ArrayList;
 import java.util.Random;
 import algorithms.*;
 import dataStructure.*;
@@ -7,12 +8,15 @@ import utils.*;
 public class myTest 
 {
 	public static void main(String[] args)
-	{	DGraph g = new DGraph();
-	for(int i=1; i<=6;i++) // add 1,2..7 vertex
-	{
-		Vertex x = new Vertex(i,null);
-		g.addNode(x);
-	}
+	{	
+		
+	DGraph g = new DGraph();
+	g.addNode(new Vertex(1,new Point3D(30,500)));
+	g.addNode(new Vertex(2,new Point3D(270,80)));
+	g.addNode(new Vertex(3,new Point3D(50,100)));
+	g.addNode(new Vertex(4,new Point3D(250,250)));
+	g.addNode(new Vertex(5,new Point3D(500,250)));
+	g.addNode(new Vertex(6,new Point3D(450,550)));
 	g.connect(1,3,14);
 	g.connect(1,4,9);
 	g.connect(1,6,7);
@@ -28,9 +32,7 @@ public class myTest
 	g.connect(3,2,9);
 	//make well connected
 	g.connect(5,2,6);
-	g.connect(2,5,6);
-	g.connect(2,3,6);
-	g.connect(5,6,6);
+
 	
 	/*for(int i=1;i<=7;i++)
 	{
@@ -49,15 +51,35 @@ public class myTest
 			g.connect(i,i+1+j,0);
 		}
 
-	}*/
+	}
+	*/
 	System.out.println(g);
 	Graph_Algo graphA = new Graph_Algo();
+	GraphicWin win = new GraphicWin(g);
 	graphA.init(g);
 	System.out.println(graphA.copy());
+	
 	System.out.println(graphA.shortestPath(1,2));
 	System.out.println(graphA.isConnected());
 	graph_algorithms f = new Graph_Algo();
 	System.out.println(((Graph_Algo) f).getGraph());
-	}
+	/*graph g = createGraph(100);
+	GraphicWin win = new GraphicWin(g);
 	
-}
+	}
+	static graph createGraph(int num)
+	{
+		graph g = new DGraph();
+		
+		int low = 0;
+		int high = 750;
+		
+		for (int i = 1; i <= num; i++) {
+			int x = (int) (Math.random() * (high - low)) + low;
+			int y = (int) (Math.random() * (high - low)) + low;
+			g.addNode(new Vertex(i,new Point3D(x,y)));
+		}
+		return g;
+	}*/
+	edge_data c= new Edge(2,2,4,3);
+}}

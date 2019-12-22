@@ -132,7 +132,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	        catch(IOException ex) 
 	        { 
 	            System.out.println("Eror with saving a file"); 
-	            System.out.println(ex.getMessage());
+	            System.out.println(ex);
 	        } 
 	  
 	}
