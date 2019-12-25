@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,20 +43,48 @@ public class GraphicWin extends JFrame implements ActionListener
 	HashMap<Integer,Point3D> locations;
 	graph_algorithms gAlgo;
 	FileName saveFrame;
-	
+	WinState state;
+	LinkedList<edge_data> shortest;
+	String console;
+
 	public GraphicWin(graph g)
 	{
+		state = WinState.REGULAR;
 		this.g=g;
+		console="";
 		verC =Color.blue;
 		gAlgo = new Graph_Algo();
-		gAlgo.init(g);
+		gAlgo.init(g); 
 		locations = new HashMap<Integer,Point3D>();
 		initGui();
+
+		Runnable myRunnable =
+			    new Runnable(){
+			int premc =g.getMC();
+			        public void run(){
+			        	while(true)
+					      {
+					    	  if(premc<g.getMC())
+					    	  {
+					    		  repaint();
+					    		  premc = g.getMC();
+					    	  }
+					    	  try {
+								Thread.sleep(1);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+					      }
+			        }
+			    };
+		 Thread thread = new Thread(myRunnable);
+
+			  thread.start();
 	}
 
 	private void initGui() {
 		//init win
-		this.setSize(750, 750);
+		this.setSize(1000, 1000);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		//init menu bar
@@ -70,10 +99,26 @@ public class GraphicWin extends JFrame implements ActionListener
 		
 		MenuItem item1 = new MenuItem("Save graph as...");
 		MenuItem item2 = new MenuItem("Open graph from...");
+		MenuItem item3 = new MenuItem("Shortest path");
+		MenuItem item4 = new MenuItem("Shortest path lenght");
+		MenuItem item5 = new MenuItem("Is connected");
+		MenuItem item7 = new MenuItem("TSP");
+		MenuItem item6 = new MenuItem("Draw normal");
 		item1.addActionListener(this);
 		item2.addActionListener(this);
+		item3.addActionListener(this);
+		item4.addActionListener(this);
+		item5.addActionListener(this);
+		item6.addActionListener(this);
+		item7.addActionListener(this);
+		
 		menu[0].add(item1);
 		menu[0].add(item2);
+		menu[1].add(item3);
+		menu[1].add(item4);
+		menu[1].add(item5);
+		menu[1].add(item6);
+		menu[1].add(item7);
 		//init file chooser
 		fileChooser =new JFileChooser("user.home/Desktop");
 		fileChooser.addActionListener(this);
@@ -92,7 +137,27 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			saveFrame= new FileName(true);
 			((FileName) saveFrame).setOk(this);
 			
+		}
+		else if(str.equals("Shortest path lenght"))
+		{
+			DistanceForm f = new DistanceForm(g.getV(),this);
+			f.setV(true);
+		}
+		else if(str.equals("Is connected"))
+		{
+			 String mess = "Is the graph connected? "+gAlgo.isConnected();
+			 JOptionPane.showMessageDialog(null, mess, "Info", JOptionPane.INFORMATION_MESSAGE);
 			
+		}
+		else if(str.equals("Draw normal"))
+		{
+			state = WinState.REGULAR;
+			repaint();
+		}
+		else if(str.equals("Shortest path"))
+		{
+			Select2VerForm f = new Select2VerForm(g.getV(),this);
+			f.setV(true);
 		}
 		else if(str.equals("Open graph from..."))
 		{
@@ -121,6 +186,8 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				String path = fileOpen.getSelectedFile().getPath();
 				gAlgo.init(path);
 				this.g = gAlgo.copy();
+				state = WinState.REGULAR;
+				console = "";
 				repaint();
 			}
 			else
@@ -138,7 +205,17 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		if(g!=null)
 		{
 			super.paint(g);
-			drawG(g);
+			switch(state)
+			{
+				case REGULAR:
+					drawG(g);
+					System.out.println("Draw regular");
+					break;
+				case SHORTPATH:
+					drawG(g);
+					System.out.println("Draw shortest");
+					break;
+			}
 		}
 		else
 		{
@@ -146,6 +223,8 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		}
 	
 	}
+
+
 	public void draw()
 	{
 		repaint();
@@ -156,6 +235,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		List<node_data> v = new ArrayList<node_data>(g.getV());
 		for (node_data ver : v) {
 			//draw vertex
+
 			Point3D p = new Point3D(ver.getLocation().x(),ver.getLocation().y());
 			graphics.setColor(verC);
 			graphics.fillOval(p.ix(), p.iy(), 7, 7);
@@ -173,7 +253,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			 Iterator<edge_data> it1 = curEdge.iterator();
 				 while (it1.hasNext()) {
 					 edge_data curE=it1.next();
-					 graphics.setColor(Color.RED);
+						 graphics.setColor(Color.RED);
 					 Point3D dest = new Point3D(v.get(curE.getDest()-1).getLocation());
 					 graphics.drawLine(p.ix(), p.iy(),dest.ix(), dest.iy());	
 					 graphics.drawString(String.valueOf(curE.getWeight()), (int)((p.x()+dest.x())/2),(int)((p.y()+dest.y())/2));
@@ -185,12 +265,59 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 						 dir = new Point3D((int)((dir.x()+p.x())/2),(int)((dir.y()+p.y())/2));
 					 }
 					 graphics.setColor(Color.ORANGE);
+					 if(state==WinState.SHORTPATH)
+					 {
+						 if(shortest.contains(curE))
+						 {
+							 graphics.setColor(Color.GREEN);
+							 shortest.remove(curE);
+						 }
+					 }
 					 graphics.fillOval(dir.ix(), dir.iy(), 7, 7);
 			}
 				 	g2d.dispose();
 			
-			
 		}
+		graphics.setColor(Color.BLACK);
+		graphics.drawString(console, 70,750);
+	}
+	public void showShortestPath(int src,int dest)
+	{
+		LinkedList<node_data> shortP = (LinkedList<node_data>) gAlgo.shortestPath(src, dest);
+		console = "Shortest path between "+src+","+dest+": "+shortP.toString();
+		shortest = new LinkedList<>();
+		Iterator<node_data> it = shortP.iterator();
+		if(shortP.size()==0)
+		{
+			console = "There is no path between "+src+","+dest;
+		}
+		else
+		{
+			node_data pre =null;
+			while(it.hasNext())
+			{
+				if(pre ==null)
+				{
+				node_data v1 = it.next();
+				node_data v2 = it.next();
+				shortest.add(new Edge(v1.getKey(),v2.getKey(),0,0));
+				pre = v2;
+				}
+				else
+				{
+					node_data v2 = it.next();
+					shortest.add(new Edge(pre.getKey(),v2.getKey(),0,0));
+					pre=v2;
+				}
+			}
+		}
+		state = WinState.SHORTPATH;
+		repaint();
+	}
+	public void applyDisAlgo(int src,int dest)
+	{
+		String s = "The distance of the sortest path between "+src+ " to "+dest+": "+gAlgo.shortestPathDist(src, dest);
+		JOptionPane.showMessageDialog(null, s, "Info", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

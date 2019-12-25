@@ -45,7 +45,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		 while (it.hasNext()) 
 		 {
 			 node_data data =it.next();
-			verMap.put(data.getKey(),((Vertex)data).copy());
+			verMap.put(data.getKey(),((Vertex)data));
 		 }
 		 //Deep copy of edges
 		 for(int i=1;i<=verMap.size();i++)
@@ -66,12 +66,12 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 					if(edges.get(i)==null)
 					{
 						LinkedList<edge_data> lst = new LinkedList<edge_data>();
-						lst.add(((Edge)curE).copy());//O(1)
+						lst.add(((Edge)curE));//O(1)
 						edges.put(i,lst); 
 					}
 					else
 					{
-						edges.get(i).add(((Edge)curE).copy());
+						edges.get(i).add(((Edge)curE));
 					}
 
 				
@@ -211,6 +211,10 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			    	current = (node_data)verMap.get(Integer.valueOf(current.getInfo()));
 			    	shortDest+=current.getWeight();
 			    }
+		    }
+		    if(path.size()==1&&path.getFirst().getKey()==dest)
+		    {
+		    	path = new LinkedList<>();
 		    }
 		return path;
 		

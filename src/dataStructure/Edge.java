@@ -61,4 +61,14 @@ public class Edge implements edge_data,Serializable
 	{
 		return new Edge(src,dest,weight,tag);
 	}
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o instanceof edge_data)
+		{
+			edge_data e = (edge_data)o;
+			return (e.getSrc()==src&&e.getDest()==dest);
+		}
+		return false;
+	}
 }

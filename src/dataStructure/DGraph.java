@@ -41,7 +41,7 @@ public class DGraph implements graph ,Serializable{
     	if(verMap.get(n)!=null)
 			System.out.println("Vertex "+n.getKey()+" already exist!");
         verMap.put(n.getKey(),n);
-        mc=1;
+        mc++;
     }
  
     @Override
@@ -64,7 +64,7 @@ public class DGraph implements graph ,Serializable{
                 edgesByVer.get(src).put(dest, edge);
             }
         }
-        mc=1;
+        mc++;
     }
  
     @Override
@@ -98,7 +98,7 @@ public class DGraph implements graph ,Serializable{
             }
             node_data remove =verMap.remove(key); //remove from ver map
             //remove from the list
-            mc=1;
+            mc++;
             return remove;
     }
  
@@ -106,7 +106,7 @@ public class DGraph implements graph ,Serializable{
     public edge_data removeEdge(int src, int dest) {
         edge_data removed = edges.remove(new Tuple(src,dest));//del from map<src,dest>
         edgesByVer.get(src).remove(dest);
-        mc=1;
+        mc++;
         return removed;
     }
  
