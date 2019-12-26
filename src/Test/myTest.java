@@ -30,6 +30,10 @@ public class myTest
 	g.connect(3,2,9);
 	//make well connected
 	g.connect(5,2,6);
+	g.connect(5,4,5);
+	g.connect(5,6,5);
+	g.connect(2,3,5);
+	g.connect(2,5,5);
 
 	
 	/*for(int i=1;i<=7;i++)
@@ -51,7 +55,7 @@ public class myTest
 
 	}
 	*/
-	g =(DGraph) createRandomGraph(20,40);
+	//g =(DGraph) createRandomGraph(20,40);
 	//System.out.println(g);
 	Graph_Algo graphA = new Graph_Algo();
 	GraphicWin win = new GraphicWin(g);

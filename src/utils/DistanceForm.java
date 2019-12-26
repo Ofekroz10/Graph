@@ -7,7 +7,7 @@ import dataStructure.node_data;
 public class DistanceForm extends Select2VerForm {
 
 	public DistanceForm(Collection<node_data> ver, GraphicWin base) {
-		super(ver, base);
+		super(base);
 	}
 	@Override
 	public void applyAlgo()

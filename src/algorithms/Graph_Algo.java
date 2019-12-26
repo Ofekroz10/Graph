@@ -252,6 +252,11 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			else
 			{
 				List<node_data> temp =shortestPath(prev,key);
+				if(temp.size()==0) // the graph is not well connected
+				{
+					result =new LinkedList<>();
+					break;
+				}
 				if(!firstCalc)
 					temp.remove(0);//O(1)
 				else

@@ -149,6 +149,11 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			 JOptionPane.showMessageDialog(null, mess, "Info", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
+		else if(str.equals("TSP"))
+		{
+			VertexInputForm vif = new VertexInputForm(this);
+			
+		}
 		else if(str.equals("Draw normal"))
 		{
 			state = WinState.REGULAR;
@@ -156,7 +161,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		}
 		else if(str.equals("Shortest path"))
 		{
-			Select2VerForm f = new Select2VerForm(g.getV(),this);
+			Select2VerForm f = new Select2VerForm(this);
 			f.setV(true);
 		}
 		else if(str.equals("Open graph from..."))
@@ -290,34 +295,64 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		if(shortP.size()==0)
 		{
 			console = "There is no path between "+src+","+dest;
+			JOptionPane.showMessageDialog(null, console, "Info", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else
 		{
-			node_data pre =null;
-			while(it.hasNext())
-			{
-				if(pre ==null)
-				{
-				node_data v1 = it.next();
-				node_data v2 = it.next();
-				shortest.add(new Edge(v1.getKey(),v2.getKey(),0));
-				pre = v2;
-				}
-				else
-				{
-					node_data v2 = it.next();
-					shortest.add(new Edge(pre.getKey(),v2.getKey(),0));
-					pre=v2;
-				}
-			}
+			updateShortLst(it);
+			state = WinState.SHORTPATH;
+			repaint();
 		}
-		state = WinState.SHORTPATH;
-		repaint();
 	}
 	public void applyDisAlgo(int src,int dest)
 	{
 		String s = "The distance of the sortest path between "+src+ " to "+dest+": "+gAlgo.shortestPathDist(src, dest);
 		JOptionPane.showMessageDialog(null, s, "Info", JOptionPane.INFORMATION_MESSAGE);
 	}
+	public boolean ifExist(int v)
+	{
+		if(g.getNode(v)==null)
+			return false;
+		return true;
+	}
 
+	public void tsp(List<Integer> vertexes) {
+		
+		LinkedList<node_data> shortP = (LinkedList<node_data>) gAlgo.TSP(vertexes);
+		shortest = new LinkedList<>();
+		Iterator<node_data> it = shortP.iterator();
+		if(shortP.size()==0)
+		{
+			console = "The graph is not well connected in this group "+vertexes.toString();
+			JOptionPane.showMessageDialog(null, console, "Info", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else
+		{
+			updateShortLst(it);
+			console = "Tsp"+vertexes.toString()+": "+shortP.toString();
+			state = WinState.SHORTPATH;
+			repaint();
+		}
+		
+	}
+	private void updateShortLst(Iterator<node_data> it)
+	{
+		node_data pre =null;
+		while(it.hasNext())
+		{
+			if(pre ==null)
+			{
+			node_data v1 = it.next();
+			node_data v2 = it.next();
+			shortest.add(new Edge(v1.getKey(),v2.getKey(),0));
+			pre = v2;
+			}
+			else
+			{
+				node_data v2 = it.next();
+				shortest.add(new Edge(pre.getKey(),v2.getKey(),0));
+				pre=v2;
+			}
+		}
+	}
 }
