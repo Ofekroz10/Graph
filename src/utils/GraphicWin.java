@@ -213,6 +213,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			switch(state)
 			{
 				case REGULAR:
+					console="";
 					drawG(g);
 					System.out.println("Draw regular");
 					break;
