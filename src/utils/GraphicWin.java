@@ -8,8 +8,11 @@ import java.awt.Graphics2D;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,12 +30,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
+import dataStructure.DGraph;
 import dataStructure.Edge;
+import dataStructure.Vertex;
 import dataStructure.edge_data;
 import dataStructure.graph;
 import dataStructure.node_data;
 
-public class GraphicWin extends JFrame implements ActionListener
+public class GraphicWin extends JFrame implements ActionListener,MouseListener
 {
 	Menu[] menu ;
 	MenuBar menuBar;
@@ -46,6 +51,8 @@ public class GraphicWin extends JFrame implements ActionListener
 	WinState state;
 	LinkedList<edge_data> shortest;
 	String console;
+	boolean addV = false;
+	int newVer =-1;
 
 	public GraphicWin(graph g)
 	{
@@ -61,16 +68,20 @@ public class GraphicWin extends JFrame implements ActionListener
 		Runnable myRunnable =
 			    new Runnable(){
 			int premc =g.getMC();
-			        public void run(){
+					@Override
+			        public synchronized void run(){
 			        	while(true)
 					      {
+			        		
 					    	  if(premc<g.getMC())
 					    	  {
+					    		  System.out.println("Enter to draw");
+					    		  System.out.println(g);
 					    		  repaint();
 					    		  premc = g.getMC();
 					    	  }
 					    	  try {
-								Thread.sleep(1);
+								Thread.sleep(10);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -80,6 +91,8 @@ public class GraphicWin extends JFrame implements ActionListener
 		 Thread thread = new Thread(myRunnable);
 
 			  thread.start();
+			
+
 	}
 
 	private void initGui() {
@@ -89,9 +102,10 @@ public class GraphicWin extends JFrame implements ActionListener
 		this.setVisible(true);
 		//init menu bar
 		menuBar = new MenuBar();
-		menu = new Menu[2];
+		menu = new Menu[3];
 		menu[0] = new Menu("File");
 		menu[1] = new Menu("Algorithms");
+		menu[2] = new Menu("Edit graph");
 		for (Menu menu2 : menu) {
 			menuBar.add(menu2);
 		}
@@ -104,6 +118,12 @@ public class GraphicWin extends JFrame implements ActionListener
 		MenuItem item5 = new MenuItem("Is connected");
 		MenuItem item7 = new MenuItem("TSP");
 		MenuItem item6 = new MenuItem("Draw normal");
+		MenuItem item8 = new MenuItem("Create new graph");
+		MenuItem item9 = new MenuItem("Add vertex");
+		MenuItem item10 = new MenuItem("Connect vertexes");
+		MenuItem item11 = new MenuItem("Remove edge");
+		MenuItem item12 = new MenuItem("Remove vertex");
+		
 		item1.addActionListener(this);
 		item2.addActionListener(this);
 		item3.addActionListener(this);
@@ -111,20 +131,32 @@ public class GraphicWin extends JFrame implements ActionListener
 		item5.addActionListener(this);
 		item6.addActionListener(this);
 		item7.addActionListener(this);
+		item8.addActionListener(this);
+		item9.addActionListener(this);
+		item10.addActionListener(this);
+		item11.addActionListener(this);
+		item12.addActionListener(this);
 		
 		menu[0].add(item1);
 		menu[0].add(item2);
+		menu[0].add(item8);
 		menu[1].add(item3);
 		menu[1].add(item4);
 		menu[1].add(item5);
 		menu[1].add(item6);
 		menu[1].add(item7);
+		menu[2].add(item9);
+		menu[2].add(item10);
+		menu[2].add(item11);
+		menu[2].add(item12);
 		//init file chooser
 		fileChooser =new JFileChooser("user.home/Desktop");
 		fileChooser.addActionListener(this);
 		fileOpen = new JFileChooser("user.home/Desktop");
 		fileOpen.addActionListener(this);
 		saveFrame = new FileName(false);
+		this.addMouseListener(this);
+	
 	}
 
 	@Override
@@ -154,6 +186,10 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			VertexInputForm vif = new VertexInputForm(this);
 			
 		}
+		else if(str.equals("Create new graph"))
+		{
+			CreateGraphFrame create = new CreateGraphFrame(this);
+		}
 		else if(str.equals("Draw normal"))
 		{
 			state = WinState.REGULAR;
@@ -168,6 +204,23 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		{
 			fileOpen.showOpenDialog(this);
 			
+		}
+		else if(str.equals("Add vertex"))
+		{
+			AddVertex form = new AddVertex(g,this);
+		}
+		else if(str.equals("Remove vertex"))
+		{
+			RemoveVertex form = new RemoveVertex(this,g);
+		}
+		else if(str.equals("Remove edge"))
+		{
+			RemoveEdgeForm form = new RemoveEdgeForm(g,this);
+		}
+
+		else if(str.equals("Connect vertexes"))
+		{
+			AddConnection form = new AddConnection(this,g);
 		}
 		else if(e.getSource().equals(fileChooser))
 		{
@@ -260,7 +313,10 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				 while (it1.hasNext()) {
 					 edge_data curE=it1.next();
 						 graphics.setColor(Color.RED);
-					 Point3D dest = new Point3D(v.get(curE.getDest()-1).getLocation());
+					 System.out.println(curE);
+					 System.out.println(v);
+					 int index = v.indexOf(new Vertex(curE.getDest(),null));
+					 Point3D dest = new Point3D(v.get(index).getLocation());
 					 graphics.drawLine(p.ix(), p.iy(),dest.ix(), dest.iy());	
 					 graphics.drawString(String.valueOf(curE.getWeight()), (int)((p.x()+dest.x())/2),(int)((p.y()+dest.y())/2));
 					 //draw the direction
@@ -355,5 +411,54 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				pre=v2;
 			}
 		}
+	}
+	public void setGraph(graph g)
+	{
+		this.g=g;
+		gAlgo.init(g);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		Point p = arg0.getLocationOnScreen();
+		System.out.println("click "+addV+" "+newVer);
+		if(addV&&newVer!=-1)//need to add new ver
+		{
+			addV=false;
+			g.addNode(new Vertex(newVer,new Point3D(p.getX(),p.getY())));
+			newVer=-1;
+			repaint();
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setNewVer(int a)
+	{
+		newVer = a;
+		addV=true;
 	}
 }

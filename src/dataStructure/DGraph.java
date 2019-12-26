@@ -13,6 +13,7 @@ public class DGraph implements graph ,Serializable{
     HashMap<Tuple,edge_data> edges;
     HashMap<Integer,HashMap<Integer,edge_data>> edgesByVer;
     int mc;
+
    
     public DGraph()
     {
@@ -23,6 +24,7 @@ public class DGraph implements graph ,Serializable{
     }
  
     @Override
+    //return node if exist, else return null
     public node_data getNode(int key) {
         node_data curVer =verMap.get(key);
         //if(curVer==null)
@@ -30,12 +32,14 @@ public class DGraph implements graph ,Serializable{
         return curVer;
     }
     @Override
+    //return edge if exist, else return null
     public edge_data getEdge(int src, int dest) {
         edge_data e =edges.get(new Tuple(src,dest));
         return e;
     }
  
     @Override
+    //add node to map if the node do not exist in the map
     public void addNode(node_data n) 
     {
     	if(verMap.get(n)!=null)
@@ -45,9 +49,11 @@ public class DGraph implements graph ,Serializable{
     }
  
     @Override
+    //connect between 2 nodes , if the nodes are connected or do not exist, throw aritmetic exception
     public void connect(int src, int dest, double w) {
         node_data source = verMap.get(src);
         node_data des = verMap.get(dest);
+
         if(des!=null&&source!=null&&verMap.get(src)!=null&&verMap.get(dest)!=null)
         {
             Edge edge = new Edge(src,dest,w);
@@ -80,9 +86,10 @@ public class DGraph implements graph ,Serializable{
     public Collection<edge_data> getE(int node_id) {
         return edgesByVer.get(node_id).values();
     }
- 
+    
+    //remove nodes from the map
     @Override
-    public node_data removeNode(int key) {
+    public  node_data removeNode(int key) {
         //remove the edges
          Iterator it = verMap.entrySet().iterator();
             while (it.hasNext()) { //O(n)
@@ -92,26 +99,34 @@ public class DGraph implements graph ,Serializable{
                 if(edges.get(cur)!=null)
                     {  
                     System.out.println("Removed "+key+" "+ pair.getKey());
-                        removeEdge(key,(int)pair.getKey());
+                    removeEdge(key,(int)pair.getKey());
                     }
                 if(edges.get(cur1)!=null)
                 {
-                    System.out.println("Removed "+key+" "+ pair.getKey());
+                    System.out.println("Removed "+pair.getKey()+" "+ key);
                     removeEdge((int)pair.getKey(),key);
                 }
             }
             node_data remove =verMap.remove(key); //remove from ver map
             //remove from the list
             mc++;
+            System.out.println("finish remove");
             return remove;
     }
- 
+    //remove edge if exist, else throw arithmetic exception
     @Override
     public edge_data removeEdge(int src, int dest) {
+    	try {
         edge_data removed = edges.remove(new Tuple(src,dest));//del from map<src,dest>
         edgesByVer.get(src).remove(dest);
         mc++;
         return removed;
+    	}
+    	catch(NullPointerException exception)
+    	{
+    		throw new ArithmeticException("Edge do not exist");
+    	}
+        
     }
  
     @Override
@@ -133,4 +148,10 @@ public class DGraph implements graph ,Serializable{
     {
         return "The vertexes are: "+verMap.values().toString() +"\n The edges are: "+edges.values().toString();
     }
+    private void removeEdgeUnUpdateMc(int src,int dest)
+    {
+    	edge_data removed = edges.remove(new Tuple(src,dest));//del from map<src,dest>
+        edgesByVer.get(src).remove(dest);
+    }
+ 
 }
