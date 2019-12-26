@@ -100,5 +100,17 @@ public class Vertex implements node_data,Serializable
 				return v;
 			}
 	}
-
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o instanceof node_data)
+		{
+			if(o instanceof Vertex)
+			{
+				Vertex v= (Vertex)o;
+				return (v.getKey()==key);
+			}
+		}
+		return false;
+	}
 }

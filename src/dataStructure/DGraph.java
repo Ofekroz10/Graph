@@ -50,7 +50,7 @@ public class DGraph implements graph ,Serializable{
         node_data des = verMap.get(dest);
         if(des!=null&&source!=null&&verMap.get(src)!=null&&verMap.get(dest)!=null)
         {
-            Edge edge = new Edge(src,dest,w,0);
+            Edge edge = new Edge(src,dest,w);
             edges.put(new Tuple(src,dest),edge);
             edgesByVer.put(src, edgesByVer.get(src));
             if(edgesByVer.get(src)==null)
@@ -63,6 +63,10 @@ public class DGraph implements graph ,Serializable{
             {
                 edgesByVer.get(src).put(dest, edge);
             }
+        }
+        else
+        {
+        	throw new ArithmeticException(); //vertex do not exist
         }
         mc++;
     }

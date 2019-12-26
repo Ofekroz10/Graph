@@ -300,13 +300,13 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				{
 				node_data v1 = it.next();
 				node_data v2 = it.next();
-				shortest.add(new Edge(v1.getKey(),v2.getKey(),0,0));
+				shortest.add(new Edge(v1.getKey(),v2.getKey(),0));
 				pre = v2;
 				}
 				else
 				{
 					node_data v2 = it.next();
-					shortest.add(new Edge(pre.getKey(),v2.getKey(),0,0));
+					shortest.add(new Edge(pre.getKey(),v2.getKey(),0));
 					pre=v2;
 				}
 			}

@@ -8,11 +8,11 @@ public class Edge implements edge_data,Serializable
 	private int tag;
 	private double weight;
 
-	public Edge(int src,int dest,double weight,int tag)
+	public Edge(int src,int dest,double weight)
 	{
 		this.src = src;
 		this.dest = dest;
-		this.tag = tag;
+		this.tag = 0;
 		this.weight = weight;
 	}
 	@Override
@@ -59,7 +59,9 @@ public class Edge implements edge_data,Serializable
 	}
 	public Edge copy()
 	{
-		return new Edge(src,dest,weight,tag);
+		Edge copy =  new Edge(src,dest,weight);
+		copy.setTag(tag);
+		return copy;
 	}
 	@Override
 	public boolean equals(Object o)

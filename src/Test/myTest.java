@@ -89,7 +89,7 @@ public class myTest
 	{
 		
 	}
-	edge_data c= new Edge(2,5,4,3);
+	edge_data c= new Edge(2,5,4);
 
 }
 	static graph createRandomGraph(int num,int edges)
