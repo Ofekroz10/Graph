@@ -1,4 +1,6 @@
 package Test;
+import java.util.LinkedList;
+
 import algorithms.*;
 import dataStructure.*;
 import utils.*;
@@ -60,14 +62,14 @@ public class myTest
 	Graph_Algo graphA = new Graph_Algo();
 	GraphicWin win = new GraphicWin(g);
 	graphA.init(g);
-	graphA.shortestPath(2,5);
+	//graphA.shortestPath(2,5);
 	System.out.println(graphA.copy());
 	
-	System.out.println(graphA.shortestPath(1,1));
+	//System.out.println(graphA.shortestPath(1,1));
 	System.out.println(graphA.isConnected());
-	System.out.println(graphA.shortestPathDist(1, 2));
-	graph_algorithms f = new Graph_Algo();
-	System.out.println(((Graph_Algo) f).getGraph());
+	//System.out.println(graphA.shortestPathDist(1, 2));
+
+	
 	/*graph g = createGraph(100);
 	GraphicWin win = new GraphicWin(g);
 	
@@ -118,4 +120,5 @@ public class myTest
 		}
 		return g;
 	}
+	
 	}

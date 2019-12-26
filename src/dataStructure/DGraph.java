@@ -7,6 +7,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+
+import utils.CreateGraphFrame;
  
 public class DGraph implements graph ,Serializable{
     HashMap<Integer,node_data> verMap;
@@ -22,7 +24,17 @@ public class DGraph implements graph ,Serializable{
          edgesByVer = new HashMap<Integer,HashMap<Integer,edge_data>>();
          mc = 0;
     }
- 
+    public DGraph(int verNum)
+    {
+        verMap = new HashMap<Integer,node_data>();
+         edges = new HashMap<Tuple,edge_data>();
+         edgesByVer = new HashMap<Integer,HashMap<Integer,edge_data>>();
+         mc = 0;
+         for(int i=0;i<=verNum;i++)
+         {
+        	 addNode(new Vertex(i,CreateGraphFrame.randPoint(70,750)));
+         }
+    }
     @Override
     //return node if exist, else return null
     public node_data getNode(int key) {
@@ -126,7 +138,6 @@ public class DGraph implements graph ,Serializable{
     	{
     		throw new ArithmeticException("Edge do not exist");
     	}
-        
     }
  
     @Override

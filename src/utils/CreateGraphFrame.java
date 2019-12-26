@@ -36,6 +36,7 @@ public class CreateGraphFrame extends JFrame {
 	JComboBox srcCB;
 	JComboBox destCB;
 	graph g;
+	int vertecies=0;
 	GraphicWin main;
 
 	/**
@@ -81,11 +82,13 @@ public class CreateGraphFrame extends JFrame {
 					Integer vNum= Integer.valueOf(num);
 					makeVisible(false,first);
 					makeVisible(true,second);
+					vertecies = (int)vNum;
 					for(int i =1;i<=vNum;i++)
 					{//add vertexes to srcCB and destCB
 						srcCB.addItem(i);
 						destCB.addItem(i);
 						g.addNode(new Vertex(i,randPoint(50,750)));
+						
 					}
 				}
 				catch(Exception e1)
@@ -157,6 +160,14 @@ public class CreateGraphFrame extends JFrame {
 		second.add(finishB);
 		
 		JButton btnNewButton = new JButton("Random graph");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				graph newG = randomG(vertecies);
+				dispose();
+				main.setGraph(newG);
+				main.draw();
+			}
+		});
 		btnNewButton.setBounds(26, 215, 138, 25);
 		contentPane.add(btnNewButton);
 		second.add(btnNewButton);
@@ -193,10 +204,33 @@ public class CreateGraphFrame extends JFrame {
 			c.setEnabled(v);
 		}		
 	}
-	static Point3D randPoint(int low,int high)
+	public static Point3D randPoint(int low,int high)
 	{
 		int x = (int) (Math.random() * (high - low)) + low;
 		int y = (int) (Math.random() * (high - low)) + low;
 		return new Point3D(x,y,0);
+	}
+	private graph randomG(int num)
+	{
+graph g = new DGraph();
+		
+		int low = 50;
+		int high = 750;
+		int edges = num*2;
+		
+		for (int i = 1; i <= num; i++) {
+			Point3D p = randPoint(50,750);
+			g.addNode(new Vertex(i,new Point3D(p.ix(),p.iy())));
+		}
+		low=1;
+		high=num;
+		for (int i = 0; i < edges; i++) {
+			System.out.println("connect");
+			int x = (int) (Math.random() * (high - low)) + low;
+			int y = (int) (Math.random() * (high - low)) + low;
+			int  w= (int) (Math.random() * (100 - 1)) + 1;
+			g.connect(x,y,w);
+		}
+		return g;
 	}
 }

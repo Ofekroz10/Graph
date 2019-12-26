@@ -193,11 +193,11 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		    node_data destV = null;
 		    while(queue.size()!=0)
 		    {
-		    	queue.add(queue.remove());//Update the queue
+		    	queue.add(queue.poll());//Update the queue
 		    	node_data v = queue.poll();
 		    	v.setTag(1);
 		    	if(v.getKey()!=dest)
-		    		hakala(v);
+		    		hakala(v,queue);
 		    	else
 		    		destV = v;
 		    }
@@ -214,13 +214,16 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		    }
 		    if(path.size()==1&&path.getFirst().getKey()==dest)
 		    {
+		    	System.out.println("blablabla");
+		    	System.out.println(path);
+		    	System.out.println(g.getNode(5).getWeight());
 		    	path = new LinkedList<>();
 		    }
 		return path;
 		
 	}
 
-	private void hakala(node_data v) {
+	private void hakala(node_data v,PriorityQueue<node_data> q) {
 		LinkedList<edge_data> nei =edges.get(v.getKey());
 		if(nei!=null)
 		{
@@ -231,6 +234,9 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 			{
 				curNeiVer.setInfo(String.valueOf(v.getKey()));
 				curNeiVer.setWeight(x);
+				//update the queue
+				q.remove(curNeiVer);
+				q.add(curNeiVer);
 			}
 		}
 		}

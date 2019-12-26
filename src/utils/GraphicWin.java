@@ -243,7 +243,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 			{
 				String path = fileOpen.getSelectedFile().getPath();
 				gAlgo.init(path);
-				this.g = gAlgo.copy();
+				this.g = ((Graph_Algo)gAlgo).getGraph();
 				state = WinState.REGULAR;
 				console = "";
 				repaint();
@@ -416,6 +416,7 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	{
 		this.g=g;
 		gAlgo.init(g);
+		System.out.println(g.getE(5));
 	}
 
 	@Override
