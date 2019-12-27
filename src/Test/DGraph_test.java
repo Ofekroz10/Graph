@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,5 +146,22 @@ public	void addNodeTest()
 			assertEquals(null,g.getNode(3));
 		}
 		
+	}
+	@Test
+	public void performance() throws InterruptedException {
+	long start = System.currentTimeMillis();
+	//code here
+	int million = 1000000;
+	DGraph d = new DGraph(million);
+	for (node_data n : d.getV()) {
+	for (int i = 1; i <= 10; i++) {
+	d.connect(n.getKey(), n.getKey() + i, i * 5);
+	}
+	}
+	System.out.println(d.edgeSize());
+	long end = System.currentTimeMillis();
+	long seconds = TimeUnit.MILLISECONDS.toSeconds(end-start);
+	System.out.println(seconds);
+	assertTrue(seconds <= 10);
 	}
 }

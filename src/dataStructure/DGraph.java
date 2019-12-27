@@ -84,7 +84,7 @@ public class DGraph implements graph ,Serializable{
         }
         else
         {
-        	throw new ArithmeticException(); //vertex do not exist
+        	//throw new ArithmeticException(); //vertex do not exist
         }
         mc++;
     }

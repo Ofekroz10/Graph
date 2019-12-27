@@ -37,46 +37,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	@Override
 	public void init(graph g) {
 		this.g=g;
-		verMap = new HashMap<Integer,node_data>();
-		 edges = new HashMap<Integer,LinkedList<edge_data>>();
-		 //Deep copy of verMap
-		 Collection<node_data> vers =  g.getV();
-		 Iterator<node_data> it=vers.iterator();
-		 while (it.hasNext()) 
-		 {
-			 node_data data =it.next();
-			verMap.put(data.getKey(),((Vertex)data));
-		 }
-		 //Deep copy of edges
-		 for(int i=1;i<=verMap.size();i++)
-		 {
-			 Collection<edge_data> curEdge;
-			 try
-			 {
-				 curEdge =  g.getE(i);
-			 }
-			 catch(NullPointerException e)
-			 {
-				 continue;
-			 }
-			 Iterator<edge_data> it1 = curEdge.iterator();
-				 while (it1.hasNext()) {
-					 edge_data curE=it1.next();
-					 
-					if(edges.get(i)==null)
-					{
-						LinkedList<edge_data> lst = new LinkedList<edge_data>();
-						lst.add(((Edge)curE));//O(1)
-						edges.put(i,lst); 
-					}
-					else
-					{
-						edges.get(i).add(((Edge)curE));
-					}
-
-				
-			 }
-		 }
+		initCollections();
 		
 	}
 
@@ -139,6 +100,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 
 	@Override
 	public boolean isConnected() {
+		initCollections();
 		Iterator it = verMap.entrySet().iterator();
 	    while (it.hasNext()) { //O(V)
 	        Map.Entry pair = (Map.Entry)it.next();
@@ -159,6 +121,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
+		initCollections();
 		LinkedList<node_data> path = new LinkedList<node_data>();
 		PriorityQueue<node_data> queue = new PriorityQueue<node_data>(new VerComperator());
 		shortDest=0;
@@ -224,6 +187,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	}
 
 	private void hakala(node_data v,PriorityQueue<node_data> q) {
+		initCollections();
 		LinkedList<edge_data> nei =edges.get(v.getKey());
 		if(nei!=null)
 		{
@@ -245,6 +209,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
+		initCollections();
 		HashMap<Integer,Double> preValues = new HashMap<Integer,Double>();
 		List<node_data> result =new LinkedList<node_data>();
 		int prev=-1;
@@ -285,6 +250,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 
 	@Override
 	public graph copy() {
+		initCollections();
 		DGraph g = new DGraph();
 		Iterator it = verMap.entrySet().iterator();
 		 while (it.hasNext()) { //O(V)
@@ -306,6 +272,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	}
 	private boolean isConnectedFrom(int src)
 	{
+		initCollections();
 		LinkedList<node_data> vers = new LinkedList<node_data>();
 		int grayNum = 0;
 		//Init vertexColor to white
@@ -344,6 +311,50 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	public graph getGraph()
 	{
 		return g;
+	}
+	private void initCollections()
+	{
+		verMap = new HashMap<Integer,node_data>();
+		 edges = new HashMap<Integer,LinkedList<edge_data>>();
+		 //shallow  copy of verMap
+		 Collection<node_data> vers =  g.getV();
+		 Iterator<node_data> it=vers.iterator();
+		 while (it.hasNext()) 
+		 {
+			 node_data data =it.next();
+			verMap.put(data.getKey(),((Vertex)data));
+		 }
+		 //Deep copy of edges
+		 for(int i=1;i<=verMap.size();i++)
+		 {
+			 Collection<edge_data> curEdge;
+			 try
+			 {
+				 curEdge =  g.getE(i);
+			 }
+			 catch(NullPointerException e)
+			 {
+				 continue;
+			 }
+			 Iterator<edge_data> it1 = curEdge.iterator();
+				 while (it1.hasNext()) {
+					 edge_data curE=it1.next();
+					 
+					if(edges.get(i)==null)
+					{
+						LinkedList<edge_data> lst = new LinkedList<edge_data>();
+						lst.add(((Edge)curE));//O(1)
+						edges.put(i,lst); 
+					}
+					else
+					{
+						edges.get(i).add(((Edge)curE));
+					}
+
+				
+			 }
+		 }
+		
 	}
 
 }
