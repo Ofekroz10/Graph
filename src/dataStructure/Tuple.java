@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class Tuple implements Serializable{
 
-    private final int k1,k2;
+ 
+	private final int k1,k2;
 
     public Tuple(int k1,int k2) {
         this.k1=k1;

@@ -50,7 +50,8 @@ public class DGraph implements graph ,Serializable{
         return e;
     }
  
-    @Override
+    @SuppressWarnings("unlikely-arg-type")
+	@Override
     //add node to map if the node do not exist in the map
     public void addNode(node_data n) 
     {
