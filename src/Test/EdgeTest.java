@@ -40,5 +40,5 @@ public class EdgeTest {
 		e.setTag(t);
 		assertEquals(t, e.getTag());
 	}
-
+	//note
 }
