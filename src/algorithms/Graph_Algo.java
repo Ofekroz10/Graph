@@ -34,6 +34,8 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 	public int shortDest=0;
 	private graph g;
 	
+	public Graph_Algo() {;}
+	
 	@Override
 	public void init(graph g) {
 		this.g=g;
@@ -177,9 +179,7 @@ public class Graph_Algo implements graph_algorithms, Serializable{
 		    }
 		    if(path.size()==1&&path.getFirst().getKey()==dest)
 		    {
-		    	System.out.println("blablabla");
-		    	System.out.println(path);
-		    	System.out.println(g.getNode(5).getWeight());
+		    	shortDest = INFI;
 		    	path = new LinkedList<>();
 		    }
 		return path;

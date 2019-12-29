@@ -14,6 +14,7 @@ public class Vertex implements node_data,Serializable
 	private Point3D location;
 	private double weight;
 	private String father;
+	private static int counter =0;
 	
 	
 	public Vertex(int key,Point3D location)
@@ -24,6 +25,15 @@ public class Vertex implements node_data,Serializable
 		this.weight = Graph_Algo.INFI;
 		this.father = "null";
 
+	}
+	public Vertex()
+	{
+		this.tag= 0;
+		this.key=counter;
+		counter++;
+		this.location = utils.CreateGraphFrame.randPoint(70, 850, 70, 750);
+		this.weight = Graph_Algo.INFI;
+		this.father = "null";
 	}
 	
 	

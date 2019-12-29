@@ -2,6 +2,8 @@ package dataStructure;
 
 import java.io.Serializable;
 
+import algorithms.Graph_Algo;
+
 public class Edge implements edge_data,Serializable
 {
 	private final int src,dest;
@@ -14,6 +16,13 @@ public class Edge implements edge_data,Serializable
 		this.dest = dest;
 		this.tag = 0;
 		this.weight = weight;
+	}
+	public Edge()
+	{
+		this.src = -1;
+		this.dest = -1;
+		this.tag = 0;
+		this.weight = Graph_Algo.INFI;
 	}
 	@Override
 	public int getSrc() {
