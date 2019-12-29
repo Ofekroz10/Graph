@@ -53,6 +53,18 @@ public class GraphicWin extends JFrame implements ActionListener,MouseListener
 	String console;
 	boolean addV = false;
 	int newVer =-1;
+	int help=0;
+	public  GraphicWin()
+	{
+		state = WinState.REGULAR;
+		console="";
+		verC =Color.blue;
+		gAlgo = new Graph_Algo();
+		g =new DGraph();
+		help=2;
+		locations = new HashMap<Integer,Point3D>();
+		initGui();
+	}
 
 	public GraphicWin(graph g)
 	{
@@ -416,7 +428,37 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	{
 		this.g=g;
 		gAlgo.init(g);
-		System.out.println(g.getE(5));
+		if(help==2)
+		{
+
+			Runnable myRunnable =
+				    new Runnable(){
+				int premc =g.getMC();
+						@Override
+				        public synchronized void run(){
+				        	while(true)
+						      {
+				        		
+						    	  if(premc<g.getMC())
+						    	  {
+						    		  System.out.println("Enter to draw");
+						    		  System.out.println(g);
+						    		  repaint();
+						    		  premc = g.getMC();
+						    	  }
+						    	  try {
+									Thread.sleep(10);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+						      }
+				        }
+				    };
+			 Thread thread = new Thread(myRunnable);
+				  thread.start();
+				  repaint();
+				  help=0;
+		}
 	}
 
 	@Override
@@ -434,32 +476,33 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	public void setNewVer(int a)
 	{
 		newVer = a;
 		addV=true;
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

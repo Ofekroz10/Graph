@@ -60,7 +60,7 @@ public class myTest
 	//g =(DGraph) createRandomGraph(20,40);
 	//System.out.println(g);
 	Graph_Algo graphA = new Graph_Algo();
-	GraphicWin win = new GraphicWin(g);
+	GraphicWin win = new GraphicWin();
 	graphA.init(g);
 	//graphA.shortestPath(2,5);
 	System.out.println(graphA.copy());
@@ -89,7 +89,8 @@ public class myTest
 		return g;
 	}*/
 	try {
-		Thread.sleep(1000);
+		Thread.sleep(5000);
+		win.setGraph(g);
 	}
 	catch(Exception e)
 	{
