@@ -30,7 +30,7 @@ public class DGraph implements graph ,Serializable{
          edges = new HashMap<Tuple,edge_data>();
          edgesByVer = new HashMap<Integer,HashMap<Integer,edge_data>>();
          mc = 0;
-         for(int i=0;i<=verNum;i++)
+         for(int i=	1;i<=verNum;i++)
          {
         	 addNode(new Vertex(i,CreateGraphFrame.randPoint(70,750)));
          }
@@ -85,7 +85,7 @@ public class DGraph implements graph ,Serializable{
         }
         else
         {
-        	//throw new ArithmeticException(); //vertex do not exist
+        	throw new ArithmeticException(); //vertex do not exist
         }
         mc++;
     }
@@ -160,10 +160,6 @@ public class DGraph implements graph ,Serializable{
     {
         return "The vertexes are: "+verMap.values().toString() +"\n The edges are: "+edges.values().toString();
     }
-    private void removeEdgeUnUpdateMc(int src,int dest)
-    {
-    	edge_data removed = edges.remove(new Tuple(src,dest));//del from map<src,dest>
-        edgesByVer.get(src).remove(dest);
-    }
+
  
 }

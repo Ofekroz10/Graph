@@ -66,7 +66,7 @@ public class CreateGraphFrame extends JFrame {
 
 		
 		verBox = new JTextField();
-		verBox.setText("number of vertexes\r\n");
+		verBox.setText("number of vertices\r\n");
 		verBox.setBounds(138, 12, 155, 22);
 		contentPane.add(verBox);
 		first.add(verBox);
