@@ -87,7 +87,7 @@ public class CreateGraphFrame extends JFrame {
 					{//add vertexes to srcCB and destCB
 						srcCB.addItem(i);
 						destCB.addItem(i);
-						g.addNode(new Vertex(i,randPoint(50,750)));
+						g.addNode(new Vertex(i,randPoint(50,850,70,750)));
 						
 					}
 				}
@@ -204,10 +204,10 @@ public class CreateGraphFrame extends JFrame {
 			c.setEnabled(v);
 		}		
 	}
-	public static Point3D randPoint(int low,int high)
+	public static Point3D randPoint(int low,int high,int low_y,int high_y)
 	{
 		int x = (int) (Math.random() * (high - low)) + low;
-		int y = (int) (Math.random() * (high - low)) + low;
+		int y = (int) (Math.random() * (high_y - low_y)) + low_y;
 		return new Point3D(x,y,0);
 	}
 	private graph randomG(int num)
@@ -219,7 +219,7 @@ graph g = new DGraph();
 		int edges = num*2;
 		
 		for (int i = 1; i <= num; i++) {
-			Point3D p = randPoint(50,750);
+			Point3D p = randPoint(50,850,70,750);
 			g.addNode(new Vertex(i,new Point3D(p.ix(),p.iy())));
 		}
 		low=1;

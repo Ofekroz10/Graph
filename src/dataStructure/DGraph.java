@@ -32,7 +32,7 @@ public class DGraph implements graph ,Serializable{
          mc = 0;
          for(int i=	1;i<=verNum;i++)
          {
-        	 addNode(new Vertex(i,CreateGraphFrame.randPoint(70,750)));
+        	 addNode(new Vertex(i,CreateGraphFrame.randPoint(50,850,70,750)));
          }
     }
     @Override
