@@ -210,7 +210,7 @@ public class CreateGraphFrame extends JFrame {
 		int y = (int) (Math.random() * (high_y - low_y)) + low_y;
 		return new Point3D(x,y,0);
 	}
-	private graph randomG(int num)
+	public static graph randomG(int num)
 	{
 graph g = new DGraph();
 		

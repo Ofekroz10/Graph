@@ -49,15 +49,14 @@ public class GraphicWin extends JFrame implements ActionListener,MouseListener
 	String console;
 	boolean addV = false;
 	int newVer =-1;
-	int help=0;
 	public  GraphicWin()
 	{
 		state = WinState.REGULAR;
+		this.g=CreateGraphFrame.randomG(20);
 		console="";
 		verC =Color.blue;
 		gAlgo = new Graph_Algo();
-		g =new DGraph();
-		help=2;
+		gAlgo.init(g); 
 		locations = new HashMap<Integer,Point3D>();
 		initGui();
 	}
@@ -424,37 +423,8 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	{
 		this.g=g;
 		gAlgo.init(g);
-		if(help==2)
-		{
-
-			Runnable myRunnable =
-				    new Runnable(){
-				int premc =g.getMC();
-						@Override
-				        public synchronized void run(){
-				        	while(true)
-						      {
-				        		
-						    	  if(premc<g.getMC())
-						    	  {
-						    		  System.out.println("Enter to draw");
-						    		  System.out.println(g);
-						    		  repaint();
-						    		  premc = g.getMC();
-						    	  }
-						    	  try {
-									Thread.sleep(10);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-						      }
-				        }
-				    };
-			 Thread thread = new Thread(myRunnable);
-				  thread.start();
-				  repaint();
-				  help=0;
-		}
+		repaint();
+		
 	}
 
 	@Override

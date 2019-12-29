@@ -56,9 +56,12 @@ public class DGraph implements graph ,Serializable{
     public void addNode(node_data n) 
     {
     	if(verMap.get(n)!=null)
-			System.out.println("Vertex "+n.getKey()+" already exist!");
-        verMap.put(n.getKey(),n);
-        mc++;
+			System.out.println("Cannot add vertex to the graph, vertex "+n.getKey()+" already exist!");
+    	else
+    	{
+	        verMap.put(n.getKey(),n);
+	        mc++;
+        }
     }
  
     @Override
