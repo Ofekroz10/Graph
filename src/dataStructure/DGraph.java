@@ -10,6 +10,7 @@ import java.util.Map;
 
 import utils.CreateGraphFrame;
  
+
 public class DGraph implements graph ,Serializable{
     HashMap<Integer,node_data> verMap;
     HashMap<Tuple,edge_data> edges;
@@ -50,7 +51,7 @@ public class DGraph implements graph ,Serializable{
         return e;
     }
  
-    @SuppressWarnings("unlikely-arg-type")
+   
 	@Override
     //add node to map if the node do not exist in the map
     public void addNode(node_data n) 
