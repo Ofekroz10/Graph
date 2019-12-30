@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import dataStructure.node_data;
 
+
 public class DistanceForm extends Select2VerForm {
 
 	public DistanceForm(Collection<node_data> ver, GraphicWin base) {

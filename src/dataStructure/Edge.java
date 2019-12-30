@@ -12,6 +12,10 @@ public class Edge implements edge_data,Serializable
 
 	public Edge(int src,int dest,double weight)
 	{
+		if(weight<0)
+		{
+			throw new ArithmeticException("Weight cannot be negative or zero");
+		}
 		this.src = src;
 		this.dest = dest;
 		this.tag = 0;

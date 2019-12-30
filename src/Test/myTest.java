@@ -1,5 +1,6 @@
 package Test;
 import java.util.LinkedList;
+import java.util.List;
 
 import algorithms.*;
 import dataStructure.*;
@@ -36,8 +37,14 @@ public class myTest
 	g.connect(5,6,5);
 	g.connect(2,3,5);
 	g.connect(2,5,5);
-
-	GraphicWin gui = new GraphicWin();
+	Graph_Algo algo = new Graph_Algo();
+	algo.init(g);
+	List<Integer> lst = new LinkedList<>();
+	lst.add(1);
+	lst.add(2);
+	lst.add(3);
+	System.out.println(algo.TSP(lst));
+	GraphicWin gui = new GraphicWin(g);
 	
 	}
 }
