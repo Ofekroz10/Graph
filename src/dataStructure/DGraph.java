@@ -115,19 +115,16 @@ public class DGraph implements graph ,Serializable{
                 Tuple cur1= new Tuple((int)pair.getKey(),key);
                 if(edges.get(cur)!=null)
                     {  
-                    System.out.println("Removed "+key+" "+ pair.getKey());
                     removeEdge(key,(int)pair.getKey());
                     }
                 if(edges.get(cur1)!=null)
                 {
-                    System.out.println("Removed "+pair.getKey()+" "+ key);
                     removeEdge((int)pair.getKey(),key);
                 }
             }
             node_data remove =verMap.remove(key); //remove from ver map
             //remove from the list
             mc++;
-            System.out.println("finish remove");
             return remove;
     }
     //remove edge if exist, else throw arithmetic exception
