@@ -72,6 +72,10 @@ public class AddVertex extends JFrame {
 		});
 		btnNewButton.setBounds(194, 8, 97, 25);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblThenClickOn = new JLabel("Then, click on the screen");
+		lblThenClickOn.setBounds(43, 61, 164, 16);
+		contentPane.add(lblThenClickOn);
 		this.setVisible(true);
 		this.setSize(300,150);
 	}

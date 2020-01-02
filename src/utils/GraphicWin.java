@@ -49,6 +49,7 @@ public class GraphicWin extends JFrame implements ActionListener,MouseListener
 	String console;
 	boolean addV = false;
 	int newVer =-1;
+	UpdateGraphThread curThread;
 	public  GraphicWin()
 	{
 		state = WinState.REGULAR;
@@ -71,34 +72,7 @@ public class GraphicWin extends JFrame implements ActionListener,MouseListener
 		gAlgo.init(g); 
 		locations = new HashMap<Integer,Point3D>();
 		initGui();
-
-		Runnable myRunnable =
-			    new Runnable(){
-			int premc =g.getMC();
-					@Override
-			        public synchronized void run(){
-			        	while(true)
-					      {
-			        		
-					    	  if(premc<g.getMC())
-					    	  {
-					    		  System.out.println("Enter to draw");
-					    		  System.out.println(g);
-					    		  repaint();
-					    		  premc = g.getMC();
-					    	  }
-					    	  try {
-								Thread.sleep(10);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-					      }
-			        }
-			    };
-		 Thread thread = new Thread(myRunnable);
-
-			  thread.start();
-			
+		curThread=startThreadUpdate(g);
 
 	}
 
@@ -253,6 +227,9 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				this.g = ((Graph_Algo)gAlgo).getGraph();
 				state = WinState.REGULAR;
 				console = "";
+				if(curThread!=null)
+					curThread.kill();
+				curThread=startThreadUpdate(g);
 				repaint();
 			}
 			else
@@ -423,6 +400,9 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	{
 		this.g=g;
 		gAlgo.init(g);
+		if(curThread!=null)
+			curThread.kill();
+		curThread=startThreadUpdate(g);
 		repaint();
 		
 	}
@@ -469,6 +449,15 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	private UpdateGraphThread startThreadUpdate(graph g1)
+	{	
+		UpdateGraphThread thread = new UpdateGraphThread(g1,this);
+		Thread t = new Thread(thread);
+		t.start();
+		return thread;
 		
 	}
 }

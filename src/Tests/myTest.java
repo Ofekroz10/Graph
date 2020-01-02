@@ -1,4 +1,4 @@
-package Test;
+package Tests;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,6 +45,8 @@ public class myTest
 	lst.add(3);
 	System.out.println(algo.TSP(lst));
 	GraphicWin gui = new GraphicWin(g);
+
+	
 	
 	}
 }

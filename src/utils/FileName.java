@@ -22,7 +22,7 @@ class FileName extends JFrame implements ActionListener
 	{
 		//init win size
 				this.setSize(100, 100);
-				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				
 				okButton = new JButton("Ok");
 				p = new JPanel();
