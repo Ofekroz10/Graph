@@ -206,7 +206,6 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		else if(e.getSource().equals(fileChooser))
 		{
 			String path = fileChooser.getSelectedFile().getPath();
-			System.out.println(path);
 			gAlgo.save(path+"//"+saveFrame.getFileName()+".graph");
 		
 		}
@@ -218,7 +217,6 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 		}
 		else if(e.getSource().equals(fileOpen))
 		{
-			System.out.println("Hey");
 			String name = fileOpen.getSelectedFile().getName();
 			if(name.endsWith(".graph"))
 			{
@@ -252,11 +250,9 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				case REGULAR:
 					console="";
 					drawG(g);
-					System.out.println("Draw regular");
 					break;
 				case SHORTPATH:
 					drawG(g);
-					System.out.println("Draw shortest");
 					break;
 			}
 		}
@@ -297,8 +293,6 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 				 while (it1.hasNext()) {
 					 edge_data curE=it1.next();
 						 graphics.setColor(Color.RED);
-					 System.out.println(curE);
-					 System.out.println(v);
 					 int index = v.indexOf(new Vertex(curE.getDest(),null));
 					 Point3D dest = new Point3D(v.get(index).getLocation());
 					 graphics.drawLine(p.ix(), p.iy(),dest.ix(), dest.iy());	
@@ -410,7 +404,6 @@ public void actionPerformed(ActionEvent e) { // listen to clicked in the menu
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		Point p = arg0.getLocationOnScreen();
-		System.out.println("click "+addV+" "+newVer);
 		if(addV&&newVer!=-1)//need to add new ver
 		{
 			addV=false;
